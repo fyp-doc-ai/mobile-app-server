@@ -44,6 +44,7 @@ const userLogin = async (req, res) => {
     );
 
     if(updateUser.acknowledged){
+        console.log('user login success')
         return res.status(200).json({ token });
     }else{
         return res.status(400).json({ success: false, message: 'Internal server error'})
@@ -52,7 +53,6 @@ const userLogin = async (req, res) => {
 
 const userSignUp = async (req, res) => {
     const { fullName, email, password } = req.body;
-
     //validation
     const result = validate.register_validation({ fullName, email, password });
     if (result?.error) {
@@ -76,6 +76,7 @@ const userSignUp = async (req, res) => {
             password: password
         });
         const token = response.data.token;
+        console.log('user signup success')
         return res.status(200).json({ token });
 
       } catch (error) {
