@@ -30,6 +30,7 @@ const editProfile = async (req, res) => {
           );
     
         if(updateUser.acknowledged){
+            console.log('User updated successfully');
             return res.status(200).json({
                 message: "User updated successfully",
                 success: true

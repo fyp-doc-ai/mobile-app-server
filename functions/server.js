@@ -1,12 +1,13 @@
 require('dotenv').config()
-require('./middlewares/Passport');
-require('./database/db');
+require('../middlewares/Passport');
+require('../database/db');
 
 const express = require("express");
+const serverless = require("serverless-http");
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const authRouter = require('./routes/auth');
-const userRouter = require('./routes/api/user');
+const authRouter = require('../routes/auth');
+const userRouter = require('../routes/api/user');
 const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.PORT;
@@ -20,7 +21,9 @@ const passport = require('passport');
 //       credentials: true,
 //     })
 //   );
-  
+
+// ngrok http http://localhost:8080
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 app.use(cookieParser());
@@ -36,3 +39,5 @@ app.get('/test', (req, res) => {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
+
+module.exports.handler = serverless(app);
