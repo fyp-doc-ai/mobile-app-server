@@ -77,7 +77,7 @@ const userSignUp = async (req, res) => {
         });
         
         // Forward the request to the login endpoint
-        const loginEndPoint = process.env.SERVER_DOMAIN + "auth/login"
+        const loginEndPoint = process.env.SERVER_DOMAIN + "/auth/login"
         const response = await axios.post(loginEndPoint, {
             email: email,
             password: password
