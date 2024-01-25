@@ -2,7 +2,7 @@ require('dotenv').config()
 const User = require("../models/userModel");
 const UserDetails = require("../models/userDetailsModel");
 const validate = require('../utils/validation');
-const bcrypt = require("bcrypt");
+const bcrypt = require('bcryptjs');
 const emailjs = require('@emailjs/nodejs');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
@@ -62,6 +62,7 @@ const userSignUp = async (req, res) => {
             message: result.error.details
         });
     }
+
     const hashedPwd = await bcrypt.hash(password, 10);
     // const newUser = await User.create({ fName, lName, email, password:hashedPwd });
 
