@@ -36,9 +36,9 @@ router.get('/test', (req, res) => {
     res.json({ success: true, message: 'Welcome to backend zone!',items:"No Items" });
 });
 
-// app.listen(port, () => {
-//     console.log(`Listening on port ${port}`)
-// });
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`)
+});
 
 app.use('/.netlify/functions/api', router);
 module.exports.handler = serverless(app);
