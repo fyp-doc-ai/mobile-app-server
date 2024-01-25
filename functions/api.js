@@ -30,15 +30,15 @@ app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 
-app.use('/auth', authRouter);
-app.use('/api', passport.authenticate('jwt', {session: false}), userRouter);  
-app.get('/test', (req, res) => {
+router.use('/auth', authRouter);
+router.use('/api', passport.authenticate('jwt', {session: false}), userRouter);  
+router.get('/test', (req, res) => {
     res.json({ success: true, message: 'Welcome to backend zone!',items:"No Items" });
 });
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`)
-});
+// app.listen(port, () => {
+//     console.log(`Listening on port ${port}`)
+// });
 
-api.use('/.netlify/functions/', router);
+app.use('/.netlify/functions/api', router);
 module.exports.handler = serverless(app);
