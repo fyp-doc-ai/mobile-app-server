@@ -12,6 +12,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.PORT;
 const passport = require('passport');
+const router = express.Router();
 
 // const origin = "http://localhost:3000/"
 // app.use(
@@ -31,7 +32,6 @@ app.use(express.json());
 
 app.use('/auth', authRouter);
 app.use('/api', passport.authenticate('jwt', {session: false}), userRouter);  
-
 app.get('/test', (req, res) => {
     res.json({ success: true, message: 'Welcome to backend zone!',items:"No Items" });
 });
@@ -40,4 +40,5 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
 
+api.use('/.netlify/functions/', router);
 module.exports.handler = serverless(app);
