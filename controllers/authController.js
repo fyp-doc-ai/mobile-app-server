@@ -55,7 +55,8 @@ const userLogin = async (req, res) => {
 const userSignUp = async (req, res, next) => {
     const { fullName, email, password } = req.body;
     //validation
-    const result = validate.register_validation({ fullName, email, password });
+    const lowerCaseEmail = email.toLowerCase();
+    const result = validate.register_validation({ fullName, lowerCaseEmail, password });
     if (result?.error) {
         return res.status(400).json({
             success: false,
@@ -69,11 +70,11 @@ const userSignUp = async (req, res, next) => {
     try {
         const role1 = "NORMAL_USER"
         const role2 = "PREMIUM_USER"
-        const newUser = await User.create({ email, password:hashedPwd, role:role1});
+        const newUser = await User.create({ email:lowerCaseEmail, password:hashedPwd, role:role1});
         await UserDetails.create({ 
           userId: newUser._id,
           fullName: fullName,
-          email:email, 
+          email:lowerCaseEmail, 
         });
         
         // Forward the request to the login endpoint

@@ -14,7 +14,8 @@ passport.use(new LocalStrategy(
     passReqToCallback: true
   },
   async function(request, email, password, done) {
-    const user = await User.findOne({email:email});
+    const lowerCaseEmail = email.toLowerCase();
+    const user = await User.findOne({email:lowerCaseEmail});
     if(!user){
       const error = {message: 'Email does not exist'}
       return done(error, null, {message: 'Logged In failed.'});
