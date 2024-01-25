@@ -1,0 +1,8 @@
+when deploying:
+
+npm run build
+
+it changes the domain_server url
+    - local .env
+    - mobile app env.json
+    - netlify env variables
