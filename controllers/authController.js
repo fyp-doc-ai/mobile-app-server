@@ -52,7 +52,7 @@ const userLogin = async (req, res) => {
     }
 }
 
-const userSignUp = async (req, res) => {
+const userSignUp = async (req, res, next) => {
     const { fullName, email, password } = req.body;
     //validation
     const result = validate.register_validation({ fullName, email, password });
@@ -77,14 +77,7 @@ const userSignUp = async (req, res) => {
         });
         
         // Forward the request to the login endpoint
-        const loginEndPoint = process.env.SERVER_DOMAIN + "/auth/login"
-        const response = await axios.post(loginEndPoint, {
-            email: email,
-            password: password
-        });
-        const token = response.data.token;
-        console.log('user signup success')
-        return res.status(200).json({ token });
+        next();
 
       } catch (error) {
         console.log('error',error)

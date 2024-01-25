@@ -5,6 +5,7 @@ const JWTStrategy   = passportJWT.Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken');
 
 passport.use(new LocalStrategy(
   {
@@ -64,3 +65,30 @@ passport.use(new JWTStrategy(
     return done(null, passportUser);
   }
 ));
+
+function passportLogin(req, res, next) {
+  passport.authenticate('local', {session: false}, (err, user, info) => {
+      if (err || !user) {
+          const message = err ? err?.message ? err.message : err : info?.message;
+          return res.status(400).json({
+              message: message,
+              user   : user
+          });
+      }
+      req.login(user, {session: false}, (err) => {
+          if (err) {
+              res.send(err);
+          }
+          const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1d' });
+          // const fakeToken = getJwt;
+          // return res.json({user, token});
+          req.body.user = user;
+          req.body.token = token;
+          next();
+      });
+  })(req, res);
+}
+
+module.exports = {
+  passportLogin
+}
