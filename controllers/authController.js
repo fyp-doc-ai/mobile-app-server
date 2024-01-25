@@ -1,5 +1,6 @@
 require('dotenv').config()
 const User = require("../models/userModel");
+const UserDetails = require("../models/userDetailsModel");
 const validate = require('../utils/validation');
 const bcrypt = require("bcrypt");
 const emailjs = require('@emailjs/nodejs');
@@ -67,7 +68,12 @@ const userSignUp = async (req, res) => {
     try {
         const role1 = "NORMAL_USER"
         const role2 = "PREMIUM_USER"
-        await User.create({ fullName, email, password:hashedPwd, role:role1});
+        const newUser = await User.create({ email, password:hashedPwd, role:role1});
+        await UserDetails.create({ 
+          userId: newUser._id,
+          fullName: fullName,
+          email:email, 
+        });
         
         // Forward the request to the login endpoint
         const loginEndPoint = process.env.SERVER_DOMAIN + "auth/login"

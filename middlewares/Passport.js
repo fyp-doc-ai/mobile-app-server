@@ -25,10 +25,9 @@ passport.use(new LocalStrategy(
       return done(error, null, {message: 'Logged In failed.'});
     }
     const passportUser = {
-      role: user.role,
       id: user._id,
-      fullName: user.fullName,
       email: user.email,
+      role: user.role,
       roleExpire: user.roleExpire,
       roleInit: user.roleInit,
     }
@@ -57,7 +56,6 @@ passport.use(new JWTStrategy(
     const passportUser = {
       role: user.role,
       id: user._id,
-      fullName: user.fullName,
       email: user.email,
       roleExpire: user.roleExpire,
       roleInit: user.roleInit,

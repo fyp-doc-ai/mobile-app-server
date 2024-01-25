@@ -1,5 +1,47 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
 const User = require("../models/userModel");
+const UserDetails = require("../models/userDetailsModel");
+
+const getUserDetails = async (req, res) => {
+    const { user } = req.body 
+    try{
+        const userDetails = await UserDetails.findOne({userId:user.id});
+        if(!userDetails){
+            return res.status(404).json({ success: false, message: 'Not found user details'});
+        }
+        return res.status(200).json({
+            userDetails: userDetails,
+            success: true
+        })
+    }catch(error){
+		console.log("Failed to get user details, ",error)
+        return res.status(500).json({ success: false, message: 'Failed to get user details'});
+    }
+}
+
+const editProfile = async (req, res) => {
+    const { name,email, dateOfBirth, profileUri, user } = req.body 
+    try{
+        const updateUser = await UserDetails.updateOne(
+            { userId: user.id },
+            {
+              $set: { "name": name, "email":email, "dateOfBirth":dateOfBirth, "profileUri":profileUri},
+            },
+          );
+    
+        if(updateUser.acknowledged){
+            return res.status(200).json({
+                message: "User updated successfully",
+                success: true
+            })
+        }else{
+            return res.status(500).json({ success: false, message: 'User upgrade failed'});
+        }
+    }catch(error) {
+		console.log("Error in user updating",error)
+        return res.status(500).json({ success: false, message: 'user update failed'});
+	}
+}
 
 const upgradeUser = async( req,res )=>{
     // billingDetails:billingData,
@@ -32,7 +74,7 @@ const upgradeUser = async( req,res )=>{
 		const payment = await stripe.paymentIntents.create({
 			amount:amount*100,
 			currency: "AUD",
-			description: "Paid for the premium package of My It University",
+			description: "Paid for the premium package of Sri-Doc",
 			payment_method: id,
 			confirm: true
 		})
@@ -47,7 +89,7 @@ const upgradeUser = async( req,res )=>{
               );
 
             if(updateUser.acknowledged){
-                res.status(200).json({
+                return res.status(200).json({
                     message: "Payment successful and user upgraded successfully",
                     success: true
                 })
@@ -68,4 +110,6 @@ const upgradeUser = async( req,res )=>{
 
 module.exports = {
     upgradeUser,
+    editProfile,
+    getUserDetails
 }

@@ -14,14 +14,11 @@ router.post('/login', function (req, res, next) {
                 user   : user
             });
         }
-  
         req.login(user, {session: false}, (err) => {
             if (err) {
                 res.send(err);
             }
-  
             const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{ expiresIn: '1d' });
-
             // const fakeToken = getJwt;
             // return res.json({user, token});
             req.body.user = user;
@@ -31,7 +28,6 @@ router.post('/login', function (req, res, next) {
     })(req, res);
   },userLogin);
   
-
 router.post('/googleLogin', googleLogin);
 router.post('/signup', userSignUp);
 router.post('/request-reset-password', newLinkForPassword);

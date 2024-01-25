@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    fullName: {
-        type: String,
-        required: [true, "fname is Required"],
-    },
     email: {
         type: String,
         unique: true, // `email` must be unique
@@ -12,7 +8,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: [false, "password is Required"],
+        required: [true, "password is Required"],
     },
     role: {
         type: String,
