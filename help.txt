@@ -1,3 +1,14 @@
 when deploying:
+    npm run build
 
-npm run build
+
+when local run:
+    change package.json start command -> "start": "nodemon server.js", 
+    npm start
+    ngrok http http://localhost:5000/.netlify/functions/server
+    
+
+when nelify local run:
+    change package.json start command -> "start": "nodemon functions/server.js", 
+    netlify functions:serve
+    will not work for ngrox
