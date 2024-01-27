@@ -22,6 +22,10 @@ const userDetailsSchema = new mongoose.Schema({
         type: String,
         required: [false, "profileUri is not required"],
     },
+    mobile: {
+        type: String,
+        required: [false, "mobile is not required"],
+    },
 });
 
 userDetailsSchema.plugin(require('mongoose-beautiful-unique-validation'));

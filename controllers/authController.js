@@ -53,7 +53,7 @@ const userLogin = async (req, res) => {
 }
 
 const userSignUp = async (req, res, next) => {
-    const { fullName, email, password } = req.body;
+    const { fullName, email, password, mobile } = req.body;
     //validation
     const lowerCaseEmail = email.toLowerCase();
     const result = validate.register_validation({ fullName, email:lowerCaseEmail, password });
@@ -74,7 +74,8 @@ const userSignUp = async (req, res, next) => {
         await UserDetails.create({ 
           userId: newUser._id,
           fullName: fullName,
-          email:lowerCaseEmail, 
+          email:lowerCaseEmail,
+          mobile:mobile, 
         });
         
         // Forward the request to the login endpoint

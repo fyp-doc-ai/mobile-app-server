@@ -20,12 +20,12 @@ const getUserDetails = async (req, res) => {
 }
 
 const editProfile = async (req, res) => {
-    const { name,email, dateOfBirth, profileUri, user } = req.body 
+    const { name,email, dateOfBirth, profileUri, mobile, user } = req.body 
     try{
         const updateUser = await UserDetails.updateOne(
             { userId: user.id },
             {
-              $set: { "name": name, "email":email, "dateOfBirth":dateOfBirth, "profileUri":profileUri},
+              $set: { "name": name, "email":email, "dateOfBirth":dateOfBirth, "profileUri":profileUri, "mobile":mobile},
             },
           );
     
