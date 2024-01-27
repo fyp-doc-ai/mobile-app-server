@@ -56,7 +56,7 @@ const userSignUp = async (req, res, next) => {
     const { fullName, email, password } = req.body;
     //validation
     const lowerCaseEmail = email.toLowerCase();
-    const result = validate.register_validation({ fullName, lowerCaseEmail, password });
+    const result = validate.register_validation({ fullName, email:lowerCaseEmail, password });
     if (result?.error) {
         return res.status(400).json({
             success: false,
@@ -82,7 +82,7 @@ const userSignUp = async (req, res, next) => {
 
       } catch (error) {
         console.log('error',error)
-        return res.status(400).json({ success: false, message: 'User email is already exist'})
+        return res.status(406).json({ success: false, message: 'User email is already exist'})
       }
 }
 

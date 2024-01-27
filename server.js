@@ -40,5 +40,3 @@ app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
 
-app.use('/.netlify/functions/server', router);
-module.exports.handler = serverless(app);

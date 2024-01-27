@@ -4,11 +4,17 @@ when deploying:
 
 when local run:
     change package.json start command -> "start": "nodemon server.js", 
+    change env port -> 8080
     npm start
-    ngrok http http://localhost:5000/.netlify/functions/server
+    ngrok http http://localhost:8080
     
 
 when nelify local run:
+    https://codeinsightacademy.com/blog/devops/how-to-deploy-express-app-on-netlify/
     change package.json start command -> "start": "nodemon functions/server.js", 
+    change env port -> 5000
     netlify functions:serve
     will not work for ngrox
+
+ngrox:
+    https://dashboard.ngrok.com/get-started/setup/windows
