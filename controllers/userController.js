@@ -25,7 +25,7 @@ const editProfile = async (req, res) => {
         const updateUser = await UserDetails.updateOne(
             { userId: user.id },
             {
-              $set: { "name": fullName, "dateOfBirth":dateOfBirth, "profileUri":profileUri, "mobile":mobile},
+              $set: { "fullName": fullName, "dateOfBirth":dateOfBirth, "profileUri":profileUri, "mobile":mobile},
             },
           );
     
