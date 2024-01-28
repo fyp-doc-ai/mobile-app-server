@@ -1,6 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET_TEST)
 const User = require("../models/userModel");
 const UserDetails = require("../models/userDetailsModel");
+const emailjs = require('@emailjs/nodejs');
 
 const getUserDetails = async (req, res) => {
     const { user } = req.body 
@@ -109,7 +110,17 @@ const upgradeUser = async( req,res )=>{
 	}
 }
 
-async function sendEmail(emailParams) {
+async function sendEmail(req, res) {
+    const { name, email, message, attachments, user } = req.body 
+    const emailParams = {
+        name:name,
+        email:email,
+        userRegisteredEmail: user.email,
+        message:message,
+    }
+    attachments.forEach((attachment, index) => {
+        emailParams[`attachment${index + 1}`] = attachment;
+      });
     try {
       const response = await emailjs.send(process.env.EMAILJS_SERVICE_ID, process.env.EMAILJS_TEMPLATE_ID, emailParams, {
         publicKey: process.env.EMAILJS_PUBLIC_KEY,
