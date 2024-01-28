@@ -16,12 +16,12 @@ async function sendEmail(emailParams) {
       console.log('SUCCESS!', response.status, response.text);
       const status = response.status;
       const message = response.text;
-      return {status, message};
+      return res.status(200).json({ success: true, message:message });
     } catch (err) {
-      console.log('FAILED...', err);
       const status = err.status;
       const message = err.text;
-      return {status, message};
+      console.log('FAILED...', status,err);
+      return res.status(400).json({ success: false, message: message})
     }
   }
 
