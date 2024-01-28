@@ -7,24 +7,6 @@ const emailjs = require('@emailjs/nodejs');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
 
-async function sendEmail(emailParams) {
-    try {
-      const response = await emailjs.send(process.env.EMAILJS_SERVICE_ID, process.env.EMAILJS_TEMPLATE_ID, emailParams, {
-        publicKey: process.env.EMAILJS_PUBLIC_KEY,
-        privateKey: process.env.EMAILJS_PRIVATE_KEY, // optional, highly recommended for security reasons
-      });
-      console.log('SUCCESS!', response.status, response.text);
-      const status = response.status;
-      const message = response.text;
-      return res.status(200).json({ success: true, message:message });
-    } catch (err) {
-      const status = err.status;
-      const message = err.text;
-      console.log('FAILED...', status,err);
-      return res.status(400).json({ success: false, message: message})
-    }
-  }
-
 const userLogin = async (req, res) => {
     const { token, user } = req.body;
 
